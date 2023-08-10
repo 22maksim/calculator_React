@@ -1,7 +1,22 @@
 import { useState } from 'react';
 import styles from './Calculator.module.css';
 
-const array = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+const arrayButton = [
+	{ id: 'null', value: 0, onFun: 'num' },
+	{ id: 'one', value: 1, onFun: 'num' },
+	{ id: 'two', value: 2, onFun: 'num' },
+	{ id: 'tree', value: 3, onFun: 'num' },
+	{ id: 'four', value: 4, onFun: 'num' },
+	{ id: 'five', value: 5, onFun: 'num' },
+	{ id: 'sex', value: 6, onFun: 'num' },
+	{ id: 'seven', value: 7, onFun: 'num' },
+	{ id: 'eight', value: 8, onFun: 'num' },
+	{ id: 'nine', value: 9, onFun: 'num' },
+	{ id: 'sum', value: '+', onFun: 'plus' },
+	{ id: 'subtract', value: '-', onFun: 'minus' },
+	{ id: 'equals', value: '=', onFun: 'equals' },
+	{ id: 'cancel', value: 'c', onFun: 'canc' },
+];
 
 const Calculator = () => {
 	const [number, setNumber] = useState('');
@@ -12,10 +27,14 @@ const Calculator = () => {
 	const addShowNum = (num) => {
 		if (showNum === '0') {
 			setShowNum(num.toString());
-			setNumber(number + num);
+			setNumber((i) => i + num);
+		} else if (sign === '=') {
+			setShowNum(num.toString());
+			setNumber((i) => i + num);
+			setSign('');
 		} else {
-			setShowNum(number + num);
-			setNumber(number + num);
+			setShowNum(showNum + num);
+			setNumber((i) => i + num);
 		}
 	};
 
@@ -65,18 +84,28 @@ const Calculator = () => {
 		setResult('');
 	};
 
-	const styleShowNum = () => {
-		if (sign === '=') {
-			return styles.result;
-		} else {
-			return styles.showNum;
-		}
-	};
+	const styleShowNum = () => (sign === '=' ? styles.result : styles.showNum);
 
-	const markNum = array.map((item) => {
+	const markNum2 = arrayButton.map((obj) => {
 		return (
-			<li className={styles.links} onClick={() => addShowNum(item)} key={item}>
-				{item}
+			<li
+				className={obj.onFun === 'num' ? styles.links : styles.symbol}
+				onClick={() =>
+					obj.onFun === 'num'
+						? addShowNum(obj.value)
+						: obj.onFun === 'plus'
+						? sum()
+						: obj.onFun === 'minus'
+						? subtract()
+						: obj.onFun === 'equals'
+						? resultShow()
+						: obj.onFun === 'canc'
+						? cleaning()
+						: 'add your function and symbol'
+				}
+				key={obj.id}
+			>
+				{obj.value}
 			</li>
 		);
 	});
@@ -84,27 +113,11 @@ const Calculator = () => {
 	return (
 		<>
 			<div className={styles.block}>
-				<div className="calculator">
+				<div>
 					<div className={styles.show}>{showNum}</div>
 					<div className={styleShowNum()}>{number || result}</div>
-					<div className={styles.mark}>
-						<div>
-							<ul className={styles.grid}>{markNum}</ul>
-						</div>
-						<div>
-							<div onClick={sum} className={styles.symbol}>
-								+
-							</div>
-							<div onClick={subtract} className={styles.symbol}>
-								-
-							</div>
-							<div onClick={resultShow} className={styles.symbol}>
-								=
-							</div>
-							<div onClick={cleaning} className={styles.symbol}>
-								c
-							</div>
-						</div>
+					<div>
+						<ul className={styles.grid}>{markNum2}</ul>
 					</div>
 				</div>
 

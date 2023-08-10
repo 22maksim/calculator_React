@@ -1,7 +1,7 @@
 .block {
 	border: 5px solid rgb(170, 114, 114);
 	border-radius: 10px;
-	width: 250px;
+	width: 230px;
 	background-color: rgb(0 0 0);
 	color: rgb(187, 184, 184);
 	margin: 10px auto;
@@ -16,11 +16,6 @@
 	justify-content: center;
 	font-size: calc(10px + 2vmin);
 	color: white;
-}
-
-.mark {
-	display: flex;
-	justify-content: center;
 }
 
 .links {
@@ -66,9 +61,10 @@
 
 .grid {
 	display: grid;
-	grid-template-columns: repeat(3, max-content);
+	grid-template-columns: repeat(4, max-content);
 	grid-template-rows: repeat(4, 1fr);
-	width: 165px;
+	width: 220px;
+	margin: 5px;
 }
 
 .grid :first-child {
@@ -90,6 +86,14 @@
 	background-color: rgb(71, 71, 71);
 	width: 154px;
 	margin: 0 3px;
+}
+
+.grid :nth-child(11) {
+	grid-area: 1/4/1/4;
+}
+
+.grid :nth-child(12) {
+	grid-area: 2/4/2/4;
 }
 
 .show {
